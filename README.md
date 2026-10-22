@@ -1,9 +1,11 @@
 # KoKo Nails Growth OS
 
-Private-business pilot source code, published in a **public repository** by the owner. No salon credentials or customer records belong here.
+Staging-only dual-channel salon MVP. Treatwell remains authoritative. Direct requests remain PENDING until manually reconciled in Treatwell.
 
-**Status:** staging MVP; **NOT** a production booking service.
+The prior-session archive koko-nails-growth-mvp.zip contains the reference source for the FastAPI app, static German responsive desktop/mobile site, admin queue, tests and operating guide. Source import to this repository is still PENDING: do not claim the site is deployed or this GitHub branch contains the runnable app.
 
-Treatwell remains the authoritative appointment calendar. A KoKo direct booking request is **PENDING** until salon staff enter the appointment into Treatwell and confirm the associated reference. Never promise an unverified time slot.
+This repository is public: do not put real customer data, credentials, database files or salon-owned assets without appropriate rights here.
 
-Implementation, tests, operating guide and full project documentation will be proposed on a feature branch for review.
+Read AGENTS.md and docs/superpowers/specs/2026-10-22-koko-growth-os-design.md first. The migration plan is in docs/superpowers/plans.
+
+Once code is imported, test with: python -m pytest -q; node --check app/static/app.js; node --check app/static/admin.js.
