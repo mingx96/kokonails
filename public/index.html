@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="Koko Nails Testansicht: Terminwünsche mit synthetischen Daten ausprobieren. Keine echte Buchung.">
+  <meta name="theme-color" content="#F7F8FC">
+  <title>Koko Nails | Terminwunsch ausprobieren – Testansicht</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt</a>
+  <div class="test-banner"><span class="test-dot" aria-hidden="true"></span> Testansicht mit erfundenen Beispieldaten. Hier entsteht kein echter Termin.</div>
+  <header class="site-header wrap">
+    <a class="brand" href="#" aria-label="Koko Nails Startseite">koko<span>nails</span></a>
+    <nav aria-label="Hauptnavigation">
+      <a href="#orientierung">Gut zu wissen</a>
+      <a class="nav-cta" href="#anfrage">Terminwunsch testen</a>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="intro">Deine kleine Auszeit</p>
+        <h1 id="hero-title">Schöne Nägel.<br>Ein Moment<br>für dich.</h1>
+        <p class="hero-description">So könnte dein nächster Terminwunsch beginnen. Probiere den Ablauf in Ruhe aus – mit einem Teststudio und einer Testperson.</p>
+        <a class="button" href="#anfrage">Testanfrage starten</a>
+        <p class="quiet">Eine Anfrage hält keinen Termin frei.</p>
+      </div>
+      <div class="lacquer-scene" role="img" aria-label="Abstrakte Illustration von lackierten Nägeln in Rosa, Flieder und Blau">
+        <div class="orbit" aria-hidden="true"></div>
+        <div class="nail nail-one" aria-hidden="true"></div>
+        <div class="nail nail-two" aria-hidden="true"></div>
+        <div class="nail nail-three" aria-hidden="true"></div>
+        <span class="scene-note">Eine Idee in Farbe.</span>
+      </div>
+    </section>
+
+    <section class="booking-section" id="anfrage" aria-labelledby="booking-title">
+      <div class="booking-layout wrap">
+        <div class="booking-intro">
+          <p class="intro">Dein Terminwunsch</p>
+          <h2 id="booking-title">Erst anfragen.<br> Dann bestätigen.</h2>
+          <p>Ein direkter Terminwunsch beginnt immer als <strong>offene Anfrage (PENDING)</strong>. Ein Zeitfenster ist damit noch nicht reserviert.</p>
+          <ol class="steps">
+            <li><span>1</span><div><strong>Wunsch auswählen</strong><p>Studio, Beispielservice und Zeit angeben.</p></div></li>
+            <li><span>2</span><div><strong>Manuell abgleichen</strong><p>Das Team prüft den Termin in Treatwell, dem führenden Kalender.</p></div></li>
+            <li><span>3</span><div><strong>Bestätigung abwarten</strong><p>Erst der passende Treatwell-Verweis erlaubt eine Bestätigung.</p></div></li>
+          </ol>
+          <div class="treatwell-note"><strong>Lieber über Treatwell?</strong><p>Der offizielle Link je Standort wird nach Prüfung ergänzt. In dieser Testansicht ist keine Weiterleitung eingerichtet.</p></div>
+        </div>
+        <div class="booking-panel">
+          <div class="panel-heading"><h3>Einmal ausprobieren</h3><span class="tag">Nur Demo</span></div>
+          <p class="form-note">Bitte keine echten Kundendaten eingeben. Alle auswählbaren Studios, Leistungen und Personen sind erfunden.</p>
+          <p id="form-availability" class="form-note" role="status">Das Testformular bleibt gesperrt, bis die Demo vollständig geladen ist. Falls es gesperrt bleibt: JavaScript aktivieren und die Seite neu laden. Es können keine Angaben eingegeben oder versendet werden.</p>
+          <form id="booking-form" aria-describedby="form-availability">
+            <fieldset id="booking-controls" class="booking-controls" disabled>
+            <legend class="visually-hidden">Synthetischen Terminwunsch ausprobieren</legend>
+            <div class="field"><label for="location">Teststudio</label><select id="location" name="locationId" required><option value="">Bitte auswählen</option><option value="demo-a">Demo-Studio A</option><option value="demo-b">Demo-Studio B</option></select></div>
+            <fieldset class="service-field"><legend>Beispielservice</legend><div class="service-options"><label><input type="radio" name="serviceId" value="demo-care" required><span>Demo: Nagelpflege</span></label><label><input type="radio" name="serviceId" value="demo-colour"><span>Demo: Farbe</span></label></div></fieldset>
+            <div class="field-row"><div class="field"><label for="date">Wunschdatum</label><input id="date" name="date" type="date" required></div><div class="field"><label for="time">Wunschuhrzeit</label><input id="time" name="time" type="time" value="14:00" required></div></div>
+            <p class="field-hint">Demo-Zeitzone: Europe/Berlin. Die Auswahl zeigt keine Verfügbarkeit.</p>
+            <div class="field"><label for="customer">Synthetische Testperson</label><select id="customer" name="customerId" required><option value="demo-01">Testperson 01</option><option value="demo-02">Testperson 02</option></select></div>
+            <label class="checkbox"><input type="checkbox" name="privacyAccepted" required><span>Ich verstehe: Dies ist ein Test ohne echte Buchung. Die Beispieldaten bleiben nur bis zum Neuladen im Arbeitsspeicher dieses Tabs.</span></label>
+            <button id="booking-submit" class="button submit-button" type="button" disabled>Testanfrage erstellen</button>
+            </fieldset>
+            <p id="form-error" class="error" role="alert" tabindex="-1" hidden></p>
+          </form>
+          <section id="receipt" class="receipt" aria-labelledby="receipt-title" tabindex="-1" hidden>
+            <span class="status pending">PENDING · Offen</span>
+            <h3 id="receipt-title">Dein Testwunsch ist erfasst.</h3>
+            <p id="receipt-detail"></p>
+            <p><strong>Es wurde kein Termin reserviert.</strong> In einem echten Ablauf prüft das Team den Wunsch zuerst in Treatwell. In dieser Demo werden keine Nachrichten versendet.</p>
+            <p id="receipt-status" role="status" aria-live="polite"></p>
+            <a href="#team">Im Team-Demoablauf ansehen</a>
+          </section>
+          <noscript><p class="error">Für die interaktive Testansicht ist JavaScript erforderlich. Es ist keine Buchung möglich.</p></noscript>
+        </div>
+      </div>
+    </section>
+
+    <section id="orientierung" class="information wrap" aria-labelledby="information-title">
+      <h2 id="information-title">Vor dem echten Termin<br>braucht es echte Details.</h2>
+      <div class="information-grid">
+        <div><h3>Leistungen & Preise</h3><p>Die Beispielservices im Formular dienen nur dem Test. Verifizierte Behandlungen, Dauer und Preise werden vor einer Freigabe ergänzt.</p></div>
+        <div><h3>Unsere Standorte</h3><p>Demo-Studio A und B sind Platzhalter. Adressen, Öffnungszeiten und offizielle Buchungslinks sind noch nicht bestätigt.</p></div>
+        <div><h3>Pflege & Kontakt</h3><p>Persönliche Pflegehinweise folgen nach Freigabe durch das Studio. E-Mail, SMS und Erinnerungen bleiben in dieser Testansicht ausgeschaltet.</p></div>
+      </div>
+      <details class="review-preview"><summary>Eine faire Einladung zum Feedback ansehen</summary><p>„Danke für deinen Besuch. Wie war deine Erfahrung? Wir freuen uns über eine ehrliche Bewertung – ob positiv, neutral oder kritisch.“</p><p class="quiet">Nur Textvorschau. Kein Versand, keine Belohnung und keine Auswahl nach Zufriedenheit. Ein echter Besuch wird hier nicht behauptet.</p></details>
+    </section>
+
+    <section id="team" class="team-section" aria-labelledby="team-title">
+      <div class="wrap">
+        <div class="team-heading"><div><p class="intro">Ablauf für das Team</p><h2 id="team-title">Offene Wünsche.<br>Bewusste Entscheidungen.</h2></div><span class="tag">Öffentliche Simulation</span></div>
+        <p class="team-disclaimer">Dies ist kein geschützter Administrationsbereich. Die Demo-Rolle simuliert Regeln im Browser und bietet keine echte Anmeldung. Es gibt keine Kundenliste oder Verbindung zu Treatwell.</p>
+        <fieldset id="team-controls" class="team-controls" disabled><legend class="visually-hidden">Teamablauf simulieren</legend><div class="field"><label for="demo-role">Demo-Rolle</label><select id="demo-role"><option value="guest">Gast – kein Queue-Zugriff</option><option value="staff-demo">Team – Regeln simulieren</option></select></div><button id="reset-demo" class="button secondary" type="button">Testdaten zurücksetzen</button></fieldset>
+        <p id="team-message" role="status" aria-live="polite"></p>
+        <div id="queue" class="queue" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap site-footer"><a class="brand" href="#">koko<span>nails</span></a><p>Testansicht. Kein echter Buchungsservice.<br>Geschäfts- und Datenschutzangaben müssen vor Freigabe geprüft werden.</p><a href="#anfrage">Zum Testformular</a></footer>
+</body>
+</html>
