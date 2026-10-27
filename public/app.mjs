@@ -106,8 +106,8 @@ function field(labelText, name, type, value) {
     if (name === 'matchedTime') input.value = value.time;
     if (name === 'treatwellReference') {
       input.placeholder = 'DEMO-12345';
-      input.pattern = 'DEMO-[A-Za-z0-9-]+';
-      input.maxLength = 60;
+      input.pattern = 'DEMO-[A-Za-z0-9](?:[A-Za-z0-9]|-){2,49}';
+      input.maxLength = 55;
       input.autocomplete = 'off';
       input.setAttribute('aria-describedby', `reconcile-hint-${value.id}`);
     }
