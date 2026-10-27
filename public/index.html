@@ -55,14 +55,18 @@
         <div class="booking-panel">
           <div class="panel-heading"><h3>Einmal ausprobieren</h3><span class="tag">Nur Demo</span></div>
           <p class="form-note">Bitte keine echten Kundendaten eingeben. Alle auswählbaren Studios, Leistungen und Personen sind erfunden.</p>
-          <form id="booking-form">
+          <p id="form-availability" class="form-note" role="status">Das Testformular bleibt gesperrt, bis die Demo vollständig geladen ist. Falls es gesperrt bleibt: JavaScript aktivieren und die Seite neu laden. Es können keine Angaben eingegeben oder versendet werden.</p>
+          <form id="booking-form" aria-describedby="form-availability">
+            <fieldset id="booking-controls" class="booking-controls" disabled>
+            <legend class="visually-hidden">Synthetischen Terminwunsch ausprobieren</legend>
             <div class="field"><label for="location">Teststudio</label><select id="location" name="locationId" required><option value="">Bitte auswählen</option><option value="demo-a">Demo-Studio A</option><option value="demo-b">Demo-Studio B</option></select></div>
             <fieldset class="service-field"><legend>Beispielservice</legend><div class="service-options"><label><input type="radio" name="serviceId" value="demo-care" required><span>Demo: Nagelpflege</span></label><label><input type="radio" name="serviceId" value="demo-colour"><span>Demo: Farbe</span></label></div></fieldset>
             <div class="field-row"><div class="field"><label for="date">Wunschdatum</label><input id="date" name="date" type="date" required></div><div class="field"><label for="time">Wunschuhrzeit</label><input id="time" name="time" type="time" value="14:00" required></div></div>
             <p class="field-hint">Demo-Zeitzone: Europe/Berlin. Die Auswahl zeigt keine Verfügbarkeit.</p>
             <div class="field"><label for="customer">Synthetische Testperson</label><select id="customer" name="customerId" required><option value="demo-01">Testperson 01</option><option value="demo-02">Testperson 02</option></select></div>
             <label class="checkbox"><input type="checkbox" name="privacyAccepted" required><span>Ich verstehe: Dies ist ein Test ohne echte Buchung. Die Beispieldaten bleiben nur bis zum Neuladen im Arbeitsspeicher dieses Tabs.</span></label>
-            <button class="button submit-button" type="submit">Testanfrage erstellen</button>
+            <button id="booking-submit" class="button submit-button" type="button" disabled>Testanfrage erstellen</button>
+            </fieldset>
             <p id="form-error" class="error" role="alert" tabindex="-1" hidden></p>
           </form>
           <section id="receipt" class="receipt" aria-labelledby="receipt-title" tabindex="-1" hidden>
@@ -92,7 +96,7 @@
       <div class="wrap">
         <div class="team-heading"><div><p class="intro">Ablauf für das Team</p><h2 id="team-title">Offene Wünsche.<br>Bewusste Entscheidungen.</h2></div><span class="tag">Öffentliche Simulation</span></div>
         <p class="team-disclaimer">Dies ist kein geschützter Administrationsbereich. Die Demo-Rolle simuliert Regeln im Browser und bietet keine echte Anmeldung. Es gibt keine Kundenliste oder Verbindung zu Treatwell.</p>
-        <div class="team-controls"><div class="field"><label for="demo-role">Demo-Rolle</label><select id="demo-role"><option value="guest">Gast – kein Queue-Zugriff</option><option value="staff-demo">Team – Regeln simulieren</option></select></div><button id="reset-demo" class="button secondary" type="button">Testdaten zurücksetzen</button></div>
+        <fieldset id="team-controls" class="team-controls" disabled><legend class="visually-hidden">Teamablauf simulieren</legend><div class="field"><label for="demo-role">Demo-Rolle</label><select id="demo-role"><option value="guest">Gast – kein Queue-Zugriff</option><option value="staff-demo">Team – Regeln simulieren</option></select></div><button id="reset-demo" class="button secondary" type="button">Testdaten zurücksetzen</button></fieldset>
         <p id="team-message" role="status" aria-live="polite"></p>
         <div id="queue" class="queue" aria-live="polite"></div>
       </div>

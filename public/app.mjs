@@ -193,3 +193,10 @@ $('#reset-demo').addEventListener('click', () => {
 const berlinDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year:'numeric', month:'2-digit', day:'2-digit' }).format(new Date());
 $('#date').min = berlinDate;
 renderQueue();
+// Enable only after every listener and the initial state are ready. Static HTML
+// remains inert when JavaScript is disabled, a dependency fails or setup throws.
+$('#booking-submit').type = 'submit';
+$('#booking-submit').disabled = false;
+$('#booking-controls').disabled = false;
+$('#team-controls').disabled = false;
+$('#form-availability').textContent = 'Die Demo ist bereit. Testangaben bleiben nur im Arbeitsspeicher dieses Tabs; es wird nichts versendet.';
