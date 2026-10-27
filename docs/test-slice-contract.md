@@ -4,9 +4,9 @@ Status: local test scaffold; no deployment, real authentication, database, custo
 
 ## Ownership
 
-- Coordinator: public/index.html, public/styles.css, public/app.mjs, scripts/, package.json, README and evidence.
+- Coordinator: public/index.html, public/styles.css, public/app.mjs, scripts/, package.json, vercel.json, build/preview tests, README and evidence images.
 - Booking worker: public/booking.mjs and tests/booking.test.mjs only. Tests first.
-- QA worker: independent review; docs/qa-review.md only. No edits to implementation.
+- QA worker: independent review; docs/qa-review.md and optional tests/browser-boot.cjs/tests/browser-flow.cjs regression drivers. No edits to runtime implementation.
 
 ## Runtime and domain API
 
@@ -32,6 +32,9 @@ Authorization is an injectable mock context solely to exercise policy; it is not
 5. No outgoing requests or persistent browser storage. Neutral review invitation preview, no send controls or satisfaction gate.
 6. `noindex,nofollow`, robots disallow; no location/service schema or business metadata built from unverified data.
 7. Node tests and syntax/build checks; independent desktop/mobile browser QA in isolated headless Chromium only. Never attach to the restaurant Chrome.
+8. Static controls stay disabled until app initialization and listeners complete. JavaScript-disabled, failed dependency and delayed boot must not cause native navigation or field-bearing requests; visible status guidance remains available.
+9. Build cleans only its resolved `dist/` output, rejects symlink/junction output and publishes exactly the six approved assets; stale sentinel disappears and an outside-output sentinel survives.
+10. Candidate Vercel config restricts output to `dist/`, applies all-path noindex/no-store and disables automatic Git deployments. Local header/artifact checks must be distinguished from hosted HTTP/CDN behavior, which stays NOT RUN until separate approval and deployment.
 
 ## Design direction
 

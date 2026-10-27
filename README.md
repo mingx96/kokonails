@@ -19,7 +19,7 @@ npm run build
 node scripts/serve.mjs --built
 ```
 
-Stop the original server before serving `dist/` on the same port. `PORT` may select a different local port. The build copies only six static assets to `dist/`; it does not deploy anything.
+Stop the original server before serving `dist/` on the same port. `PORT` may select a different local port. The build checks and cleans only its resolved `dist/` output, refuses an output symlink/junction, and writes exactly six approved static assets. Existing files outside that output remain untouched. Building does not deploy anything.
 
 ## What this slice demonstrates
 
@@ -29,7 +29,8 @@ Stop the original server before serving `dist/` on the same port. `PORT` may sel
 - Mock policy denies guest queue access; terminal requests cannot change. Confirmation requires exact location/date/time, explicit manual attestation and a unique `DEMO-…` reference.
 - Neutral review-invitation text preview, with no satisfaction filtering, incentives or sending.
 - No submission network client, cookies, local/session storage, analytics, external fonts or images. Memory is isolated per tab and disappears on reload.
-- `noindex,nofollow,noarchive` metadata, robots disallow and local response headers. These are indexing instructions, not access control.
+- Booking and team controls are disabled in source HTML. They open only after initialization and submit listeners are ready; disabled JavaScript or a failed/delayed module keeps the form inert with visible guidance.
+- `noindex,nofollow,noarchive` metadata, robots disallow and versioned test response headers. These are indexing instructions, not access control.
 
 **The public team simulation is not authentication.** Its browser role selector is intentionally inspectable and bypassable. There is no writable backend or real admin endpoint. Client tests prove simulation behavior only; never connect this version to customer data.
 
@@ -37,9 +38,30 @@ Stop the original server before serving `dist/` on the same port. `PORT` may sel
 
 The base branch at `c139fbdf` contained only five documentation/ignore files. The reference `koko-nails-growth-mvp.zip` was not found in the inspected accessible locations; it has **not** been imported, executed or verified. The earlier FastAPI migration plan and its historical test count remain in `docs/superpowers` as historical documents.
 
-This is a new dependency-free JavaScript test scaffold, not a recovered FastAPI application. Static ES modules plus Node's built-in test runner make the first slice runnable without provisioning accounts, credentials or a database. `dist/` is a candidate artifact for a future separate Vercel test project after review; no project, deployment or Vercel configuration was created. Python/backend tests do not apply to this scaffold and have not been run.
+This is a new dependency-free JavaScript test scaffold, not a recovered FastAPI application. Static ES modules plus Node's built-in test runner make the first slice runnable without provisioning accounts, credentials or a database. `dist/` is a candidate artifact for a future separate Vercel test project after review; no project or deployment was created. A reviewed local `vercel.json` candidate now specifies this output and all-path test headers; automatic Git deployments are disabled. Python/backend tests do not apply to this scaffold and have not been run.
 
 See [test contract](docs/test-slice-contract.md), [source audit and release boundaries](docs/source-audit.md) and [independent QA](docs/qa-review.md).
+
+## Candidate Vercel test configuration
+
+`vercel.json` sets `framework: null`, `buildCommand: npm run build`, no install command, and `outputDirectory: dist`. Every path has `X-Robots-Tag: noindex, nofollow, noarchive` plus browser/CDN `no-store` headers. The loopback server reads the same header values for local tests. No CSP or authentication mechanism is used to hide form submission failures.
+
+These are configuration and local artifact checks, not proof of hosted behavior. After an independently approved test deployment, check actual GET/HEAD responses for `/`, all six assets and 404 paths, browser `Cache-Control`, `CDN-Cache-Control`, `X-Robots-Tag` and asset exposure. Vercel consumes its `Vercel-CDN-Cache-Control` header, so do not require that internal header to appear in the browser. Recheck failure cases and ensure docs, screenshots, sources outside the six output assets and writable/admin endpoints are not served. No deployment is authorized by this file.
+
+Configuration follows Vercel's [static headers/output settings](https://vercel.com/docs/project-configuration/vercel-json), [cache-control behavior](https://vercel.com/docs/caching/cache-control-headers) and [disabled automatic Git deployments](https://vercel.com/docs/project-configuration/git-configuration#turning-off-all-automatic-deployments). Hosted header/CDN behavior remains **NOT RUN**.
+
+## Optional browser regression
+
+The portable `tests/browser-boot.cjs` and `tests/browser-flow.cjs` checks use an already installed Playwright runtime and always launch a fresh headless browser. They never install packages or attach to a browser. With the local server running:
+
+```sh
+node tests/browser-boot.cjs
+node tests/browser-flow.cjs
+```
+
+If Playwright is outside normal module lookup, set `KOKO_PLAYWRIGHT_MODULE` to its installed module path. `KOKO_CHROMIUM_EXECUTABLE` can select an existing Chromium executable; `KOKO_BASE_URL` may select another loopback IP origin, and `KOKO_EXPECTED_COMMIT` can enforce the exact Git revision. Results, screenshots and source hashes go to ignored `output/playwright/`. These browser checks are optional because the default Node suite has no installed dependencies.
+
+The [tracked synthetic screenshots](docs/review-images/README.md) are available for independent pixel review without access to this machine.
 
 ## Before any live pilot
 

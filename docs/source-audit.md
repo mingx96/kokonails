@@ -27,6 +27,8 @@ No real contact entry, outbound messaging, telemetry, persistent browser storage
 
 Read-only Vercel checks found no projects linked to GitHub repository ID `1429826379` in the connected personal scope or the connected team scope. The baseline GitHub commit had no check runs. These observations do not grant permission to deploy or rule out integrations outside the inspected account. No Vercel project/settings, GitHub permissions or service credentials were created or changed. No deploy workflow is added.
 
+The follow-up source review requested a local platform configuration candidate. `vercel.json` now restricts output to `dist/`, declares all-path noindex/no-store headers and disables automatic Git deployments. This versioned configuration does not provision or change a live project. Its local tests do not replace hosted HTTP/CDN verification after a separately approved deployment.
+
 ## Release boundary
 
 This draft branch is suitable for reviewing a local synthetic prototype. It is not approved for merge, deployment, indexing or customer use. Before integration, review a separate deployment/database/environment/secrets plan, server authentication and authorization, transactional policy enforcement, audit/retention/backups, verified salon content and manual Treatwell reconciliation. Outbound remains off.
