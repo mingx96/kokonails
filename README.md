@@ -83,6 +83,8 @@ node tests/lab-browser.cjs
 
 The additional bounded keyboard/narrow-layout check is `node tests/lab-usability.cjs`, using the same existing runtime and loopback origin. It tests keyboard navigation and 320px reflow with text enlarged to 200%; this is not a real-device or screen-reader certification. See [usability evidence](docs/lab-usability-review.md) and the consolidated [salon pilot setup checklist](docs/pilot-setup-checklist.md).
 
+The local deliverable is complete at this checkpoint. See the [owner demo summary](docs/owner-demo-summary.md) and single [unset business intake template](config/pilot.template.json). `node scripts/check-pilot-template.mjs` intentionally returns `ready: false` and exit code 1: missing or supplied-but-unverified facts cannot activate a pilot. This diagnostic is not imported by the lab or build and does not verify real facts, links, hosting or access choices.
+
 ## Before any live pilot
 
 Keep the business rules in [AGENTS.md](AGENTS.md) and the [existing specification](docs/superpowers/specs/2026-10-22-koko-growth-os-design.md). Obtain owner-verified details for each salon, services/prices, official Treatwell links and reviewed legal/privacy copy. Do not repurpose existing marketplace bookings to avoid fees.
