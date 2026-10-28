@@ -1,0 +1,721 @@
+{
+  "implementationCommit": "7a490fa27a08ba944731add35a9b3663554d8620",
+  "browser": "156.0.8078.4",
+  "usabilityRunAt": "2026-10-28T10:52:29.305Z",
+  "bookingRunAt": "2026-10-28T10:53:16.735Z",
+  "sourceHashes": {
+    "lab/index.html": "402893659c87caf61400395bf27fc7e1abcbad86c42c3f15818a62f4280d1470",
+    "lab/styles.css": "9ba472faf46f404ae79819e1e6199d5b23e0e7c86adc02f4a5ede1e039aedccb",
+    "lab/app.mjs": "fab1d659d073f8d07e922bc29e153e3df64d6580f321185e442b2cb2aea014bb",
+    "lab/controller.mjs": "ab4eeb27786831815cdfc644ea6d78287cf03c75fbfbd6cfda8b86677b889dae",
+    "scripts/serve-lab.mjs": "4722d90005187496026137fc6620a866097d79dc357772e3c0bff7cc9d42a3ce",
+    "tests/lab-usability.cjs": "d3af50e20a663a6067293d4de3c3f44db68e42613cec29f0bb0c120447c390c3",
+    "server/booking-service.mjs": "1e3b07540beb240eca830eb3b16da8cb6c8e194e8d1bd84748af3b18edde31c4",
+    "server/fake-booking-adapter.mjs": "a4fe9b9e17bde87a8aba5fe0b8ae176ee3b9d9600c0b0af9605c496b8a2e1b68",
+    "server/booking-errors.mjs": "1d339abe995393a07a82730526be07fd6a6edbd470d745eaadc9f7c52ca0107b",
+    "public/booking.mjs": "7a4f10003240a13110ae0fe9cf462cfa0a1f2c5304bcb0e8f86c1cbf74992620",
+    "tests/lab-browser.cjs": "3ce1a5f594c13898a3fc93e3be51764a1628442fe387e8aea87e4494bbbe34dc",
+    "tests/lab-independent.test.mjs": "ed5a9e7ca2da3d34970f81ee2327c5542bfa3e3c4f87104d5cc31a660c380901"
+  },
+  "usabilityCases": [
+    {
+      "kind": "keyboard",
+      "result": "PASS",
+      "initialAudit": {
+        "controls": [
+          {
+            "id": "",
+            "tag": "A",
+            "name": "Zum Buchungslabor"
+          },
+          {
+            "id": "actor",
+            "tag": "SELECT",
+            "name": "Testrolle – kein Login"
+          },
+          {
+            "id": "scope-location",
+            "tag": "SELECT",
+            "name": "Teststudio im Arbeitsbereich"
+          },
+          {
+            "id": "",
+            "tag": "SUMMARY",
+            "name": "Testszenario und Neustart"
+          },
+          {
+            "id": "scenario",
+            "tag": "SELECT",
+            "name": "Szenario nach Neustart"
+          },
+          {
+            "id": "reset-ack",
+            "tag": "INPUT",
+            "name": "Alle lokalen Anfragen und Vorgänge beim Neustart löschen."
+          },
+          {
+            "id": "reset",
+            "tag": "BUTTON",
+            "name": "Labor neu starten und Daten löschen"
+          },
+          {
+            "id": "request-service",
+            "tag": "SELECT",
+            "name": "Testleistung"
+          },
+          {
+            "id": "request-start",
+            "tag": "SELECT",
+            "name": "Gewünschter Testzeitpunkt (UTC)"
+          },
+          {
+            "id": "request-privacy",
+            "tag": "INPUT",
+            "name": "Ich verwende ausschließlich erfundene Testdaten."
+          },
+          {
+            "id": "request-send",
+            "tag": "BUTTON",
+            "name": "Testanfrage stellen"
+          },
+          {
+            "id": "refresh",
+            "tag": "BUTTON",
+            "name": "Ansicht aktualisieren"
+          }
+        ],
+        "unnamed": [],
+        "described": []
+      },
+      "detailAudit": {
+        "controls": [
+          {
+            "id": "",
+            "tag": "A",
+            "name": "Zum Buchungslabor"
+          },
+          {
+            "id": "actor",
+            "tag": "SELECT",
+            "name": "Testrolle – kein Login"
+          },
+          {
+            "id": "scope-location",
+            "tag": "SELECT",
+            "name": "Teststudio im Arbeitsbereich"
+          },
+          {
+            "id": "",
+            "tag": "SUMMARY",
+            "name": "Testszenario und Neustart"
+          },
+          {
+            "id": "scenario",
+            "tag": "SELECT",
+            "name": "Szenario nach Neustart"
+          },
+          {
+            "id": "reset-ack",
+            "tag": "INPUT",
+            "name": "Alle lokalen Anfragen und Vorgänge beim Neustart löschen."
+          },
+          {
+            "id": "reset",
+            "tag": "BUTTON",
+            "name": "Labor neu starten und Daten löschen"
+          },
+          {
+            "id": "refresh",
+            "tag": "BUTTON",
+            "name": "Ansicht aktualisieren"
+          },
+          {
+            "id": "open-demo-booking-1",
+            "tag": "BUTTON",
+            "name": "Testkundin 012027-02-18 13:30 UTCNagelpflege (Demo)Anfrage offen (PENDING)"
+          },
+          {
+            "id": "",
+            "tag": "A",
+            "name": "Zurück zur Liste"
+          },
+          {
+            "id": "resource",
+            "tag": "SELECT",
+            "name": "Testressource"
+          },
+          {
+            "id": "matched-location",
+            "tag": "SELECT",
+            "name": "Abgeglichenes Teststudio"
+          },
+          {
+            "id": "matched-start",
+            "tag": "SELECT",
+            "name": "Abgeglichener Testzeitpunkt (UTC)"
+          },
+          {
+            "id": "reference",
+            "tag": "INPUT",
+            "name": "Erfundene Treatwell-Testreferenz"
+          },
+          {
+            "id": "attestation",
+            "tag": "INPUT",
+            "name": "Ich habe den manuellen Abgleich mit dieser Testreferenz bewusst simuliert."
+          },
+          {
+            "id": "confirm",
+            "tag": "BUTTON",
+            "name": "Nur im Test bestätigen"
+          },
+          {
+            "id": "decline",
+            "tag": "BUTTON",
+            "name": "Anfrage ablehnen"
+          }
+        ],
+        "unnamed": [],
+        "described": [
+          {
+            "id": "reference",
+            "valid": true
+          }
+        ]
+      },
+      "busy": {
+        "busy": true,
+        "reset": true,
+        "actor": true,
+        "activity": "Lokaler Testvorgang läuft. Bitte warten."
+      },
+      "interruption": [
+        {
+          "busy": true,
+          "resetDisabled": true
+        }
+      ],
+      "interruptedRequestDiscarded": true
+    },
+    {
+      "kind": "layout",
+      "scale": 1,
+      "before": {
+        "root": 16,
+        "body": 16,
+        "button": 16,
+        "h1": 32,
+        "width": 320,
+        "dpr": 1
+      },
+      "after": {
+        "root": 16,
+        "body": 16,
+        "button": 16,
+        "h1": 32,
+        "width": 320,
+        "dpr": 1,
+        "scrollWidth": 320,
+        "skipBottom": -20,
+        "outside": []
+      },
+      "requestReadouts": [
+        {
+          "text": "Auswahl: Nagelpflege (Demo, 30 Testminuten)",
+          "left": 35,
+          "right": 285,
+          "width": 250,
+          "height": 44.65625,
+          "lineHeight": 22.32,
+          "fontSize": 14.4,
+          "client": 250,
+          "scroll": 250,
+          "viewport": 320
+        },
+        {
+          "text": "Auswahl: 2027-02-18 13:30 UTC",
+          "left": 35,
+          "right": 285,
+          "width": 250,
+          "height": 22.328125,
+          "lineHeight": 22.32,
+          "fontSize": 14.4,
+          "client": 250,
+          "scroll": 250,
+          "viewport": 320
+        }
+      ],
+      "detailReadouts": [
+        {
+          "text": "Auswahl: Testressource A1",
+          "left": 35,
+          "right": 285,
+          "width": 250,
+          "height": 22.328125,
+          "lineHeight": 22.32,
+          "fontSize": 14.4,
+          "client": 250,
+          "scroll": 250,
+          "viewport": 320
+        },
+        {
+          "text": "Auswahl: 2027-02-18 13:30 UTC",
+          "left": 35,
+          "right": 285,
+          "width": 250,
+          "height": 22.328125,
+          "lineHeight": 22.32,
+          "fontSize": 14.4,
+          "client": 250,
+          "scroll": 250,
+          "viewport": 320
+        }
+      ],
+      "detail": {
+        "scrollWidth": 320,
+        "width": 320,
+        "outside": [],
+        "overlaps": []
+      },
+      "labelAudit": {
+        "controls": [
+          {
+            "id": "",
+            "tag": "A",
+            "name": "Zum Buchungslabor"
+          },
+          {
+            "id": "actor",
+            "tag": "SELECT",
+            "name": "Testrolle – kein Login"
+          },
+          {
+            "id": "scope-location",
+            "tag": "SELECT",
+            "name": "Teststudio im Arbeitsbereich"
+          },
+          {
+            "id": "",
+            "tag": "SUMMARY",
+            "name": "Testszenario und Neustart"
+          },
+          {
+            "id": "scenario",
+            "tag": "SELECT",
+            "name": "Szenario nach Neustart"
+          },
+          {
+            "id": "reset-ack",
+            "tag": "INPUT",
+            "name": "Alle lokalen Anfragen und Vorgänge beim Neustart löschen."
+          },
+          {
+            "id": "reset",
+            "tag": "BUTTON",
+            "name": "Labor neu starten und Daten löschen"
+          },
+          {
+            "id": "refresh",
+            "tag": "BUTTON",
+            "name": "Ansicht aktualisieren"
+          },
+          {
+            "id": "open-demo-booking-1",
+            "tag": "BUTTON",
+            "name": "Testkundin 012027-02-18 13:30 UTCNagelpflege (Demo)Anfrage offen (PENDING)"
+          },
+          {
+            "id": "",
+            "tag": "A",
+            "name": "Zurück zur Liste"
+          },
+          {
+            "id": "resource",
+            "tag": "SELECT",
+            "name": "Testressource"
+          },
+          {
+            "id": "matched-location",
+            "tag": "SELECT",
+            "name": "Abgeglichenes Teststudio"
+          },
+          {
+            "id": "matched-start",
+            "tag": "SELECT",
+            "name": "Abgeglichener Testzeitpunkt (UTC)"
+          },
+          {
+            "id": "reference",
+            "tag": "INPUT",
+            "name": "Erfundene Treatwell-Testreferenz"
+          },
+          {
+            "id": "attestation",
+            "tag": "INPUT",
+            "name": "Ich habe den manuellen Abgleich mit dieser Testreferenz bewusst simuliert."
+          },
+          {
+            "id": "confirm",
+            "tag": "BUTTON",
+            "name": "Nur im Test bestätigen"
+          },
+          {
+            "id": "decline",
+            "tag": "BUTTON",
+            "name": "Anfrage ablehnen"
+          }
+        ],
+        "unnamed": [],
+        "described": [
+          {
+            "id": "reference",
+            "valid": true
+          }
+        ]
+      },
+      "result": "PASS"
+    },
+    {
+      "kind": "layout",
+      "scale": 2,
+      "before": {
+        "root": 16,
+        "body": 16,
+        "button": 16,
+        "h1": 32,
+        "width": 320,
+        "dpr": 1
+      },
+      "after": {
+        "root": 32,
+        "body": 32,
+        "button": 32,
+        "h1": 64,
+        "width": 320,
+        "dpr": 1,
+        "scrollWidth": 320,
+        "skipBottom": -20,
+        "outside": []
+      },
+      "requestReadouts": [
+        {
+          "text": "Auswahl: Nagelpflege (Demo, 30 Testminuten)",
+          "left": 35,
+          "right": 285,
+          "width": 250,
+          "height": 178.5,
+          "lineHeight": 44.64,
+          "fontSize": 28.8,
+          "client": 250,
+          "scroll": 250,
+          "viewport": 320
+        },
+        {
+          "text": "Auswahl: 2027-02-18 13:30 UTC",
+          "left": 35,
+          "right": 285,
+          "width": 250,
+          "height": 89.25,
+          "lineHeight": 44.64,
+          "fontSize": 28.8,
+          "client": 250,
+          "scroll": 250,
+          "viewport": 320
+        }
+      ],
+      "detailReadouts": [
+        {
+          "text": "Auswahl: Testressource A1",
+          "left": 35,
+          "right": 285,
+          "width": 250,
+          "height": 89.25,
+          "lineHeight": 44.64,
+          "fontSize": 28.8,
+          "client": 250,
+          "scroll": 250,
+          "viewport": 320
+        },
+        {
+          "text": "Auswahl: 2027-02-18 13:30 UTC",
+          "left": 35,
+          "right": 285,
+          "width": 250,
+          "height": 89.25,
+          "lineHeight": 44.64,
+          "fontSize": 28.8,
+          "client": 250,
+          "scroll": 250,
+          "viewport": 320
+        }
+      ],
+      "detail": {
+        "scrollWidth": 320,
+        "width": 320,
+        "outside": [],
+        "overlaps": []
+      },
+      "labelAudit": {
+        "controls": [
+          {
+            "id": "",
+            "tag": "A",
+            "name": "Zum Buchungslabor"
+          },
+          {
+            "id": "actor",
+            "tag": "SELECT",
+            "name": "Testrolle – kein Login"
+          },
+          {
+            "id": "scope-location",
+            "tag": "SELECT",
+            "name": "Teststudio im Arbeitsbereich"
+          },
+          {
+            "id": "",
+            "tag": "SUMMARY",
+            "name": "Testszenario und Neustart"
+          },
+          {
+            "id": "scenario",
+            "tag": "SELECT",
+            "name": "Szenario nach Neustart"
+          },
+          {
+            "id": "reset-ack",
+            "tag": "INPUT",
+            "name": "Alle lokalen Anfragen und Vorgänge beim Neustart löschen."
+          },
+          {
+            "id": "reset",
+            "tag": "BUTTON",
+            "name": "Labor neu starten und Daten löschen"
+          },
+          {
+            "id": "refresh",
+            "tag": "BUTTON",
+            "name": "Ansicht aktualisieren"
+          },
+          {
+            "id": "open-demo-booking-1",
+            "tag": "BUTTON",
+            "name": "Testkundin 012027-02-18 13:30 UTCNagelpflege (Demo)Anfrage offen (PENDING)"
+          },
+          {
+            "id": "",
+            "tag": "A",
+            "name": "Zurück zur Liste"
+          },
+          {
+            "id": "resource",
+            "tag": "SELECT",
+            "name": "Testressource"
+          },
+          {
+            "id": "matched-location",
+            "tag": "SELECT",
+            "name": "Abgeglichenes Teststudio"
+          },
+          {
+            "id": "matched-start",
+            "tag": "SELECT",
+            "name": "Abgeglichener Testzeitpunkt (UTC)"
+          },
+          {
+            "id": "reference",
+            "tag": "INPUT",
+            "name": "Erfundene Treatwell-Testreferenz"
+          },
+          {
+            "id": "attestation",
+            "tag": "INPUT",
+            "name": "Ich habe den manuellen Abgleich mit dieser Testreferenz bewusst simuliert."
+          },
+          {
+            "id": "confirm",
+            "tag": "BUTTON",
+            "name": "Nur im Test bestätigen"
+          },
+          {
+            "id": "decline",
+            "tag": "BUTTON",
+            "name": "Anfrage ablehnen"
+          }
+        ],
+        "unnamed": [],
+        "described": [
+          {
+            "id": "reference",
+            "valid": true
+          }
+        ]
+      },
+      "result": "PASS"
+    }
+  ],
+  "bookingCases": [
+    {
+      "kind": "journey",
+      "width": 390,
+      "result": "PASS"
+    },
+    {
+      "kind": "journey",
+      "width": 768,
+      "result": "PASS"
+    },
+    {
+      "kind": "journey",
+      "width": 1440,
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "javascript-disabled",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "app-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "controller-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "domain-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "delayed-app",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "javascript-disabled",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "app-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "controller-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "domain-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "delayed-app",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "javascript-disabled",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "app-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "controller-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "domain-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "delayed-app",
+      "result": "PASS"
+    }
+  ],
+  "baselineReflow": {
+    "commit": "7175ee3af499c2e24c37845c7d7f6f0e94858b2e",
+    "runAt": "2026-10-28T10:39:02.045Z",
+    "results": [
+      {
+        "kind": "layout",
+        "scale": 1,
+        "result": "PASS",
+        "viewport": 320,
+        "scrollWidth": 320,
+        "rootFont": 16,
+        "skipBottom": -51.203125
+      },
+      {
+        "kind": "layout",
+        "scale": 2,
+        "result": "FAIL",
+        "reason": "320px at 200% text scrolls to 423px",
+        "viewport": 320,
+        "scrollWidth": 423,
+        "rootFont": 32,
+        "skipBottom": 23.1875
+      }
+    ]
+  },
+  "screenshots": {
+    "desktop-error.png": {
+      "sha256": "acd4ece5691fc09445f1a27473ecfebc7b8c616da752ee122269a07078363957",
+      "width": 1440,
+      "height": 2206
+    },
+    "enlarged-detail.png": {
+      "sha256": "008ed8619d43fee101778ad61d580390a82d69770997e4bef1d500f5e55c2125",
+      "width": 320,
+      "height": 9704
+    },
+    "enlarged-text.png": {
+      "sha256": "12108f569a1e6efba43da864b2a1a9541451566a8a3ca3bc90f401d07158d1da",
+      "width": 320,
+      "height": 7434
+    },
+    "keyboard-after-interruption.png": {
+      "sha256": "4984cbd7f279257f6fe337a749ab597448edd329073dc242b765134c99170bc4",
+      "width": 1280,
+      "height": 1341
+    },
+    "narrow-detail.png": {
+      "sha256": "f4bff1b92b1b09d439ddc051d5164b3919a3b91b9fa5e94d1f769787d93e097a",
+      "width": 320,
+      "height": 3674
+    },
+    "narrow-normal.png": {
+      "sha256": "92eff6ec40c3109ad80c1b6a33968e97c7f3632a50ea313c8131f4b6a61ef39b",
+      "width": 320,
+      "height": 2703
+    }
+  }
+}
