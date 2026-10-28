@@ -14,3 +14,4 @@ button, input, select { max-width:100%; }
   transform:translateY(calc(-100% - 20px));
 }
 .skip-link:focus { top:10px; transform:none; }
+.selection-value { margin:.4rem 0; font-size:.9rem; color:var(--muted); }

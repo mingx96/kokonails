@@ -62,6 +62,14 @@ async function geometry(page){return page.evaluate(()=>{
   const overlaps=[];for(let i=0;i<controls.length;i++)for(let j=i+1;j<controls.length;j++){const a=controls[i],b=controls[j];if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>1&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>1)overlaps.push([a.id||a.tag,b.id||b.tag]);}
   return{scrollWidth:document.documentElement.scrollWidth,width:innerWidth,outside:controls.filter(n=>n.left<-.5||n.right>innerWidth+.5),overlaps};
 });}
+async function fullReadout(page,id,expected,scale){
+  const node=page.locator('#'+id+'-selection');assert.equal(await node.isVisible(),true);
+  assert.equal(await node.innerText(),'Auswahl: '+expected);
+  const measured=await node.evaluate(n=>{const r=n.getBoundingClientRect(),css=getComputedStyle(n);return{text:n.innerText,left:r.left,right:r.right,width:r.width,height:r.height,lineHeight:parseFloat(css.lineHeight),fontSize:parseFloat(css.fontSize),client:n.clientWidth,scroll:n.scrollWidth,viewport:innerWidth};});
+  assert.ok(measured.left>=0&&measured.right<=measured.viewport+.5);assert.ok(measured.scroll<=measured.client+1,'full selection must wrap instead of clipping');
+  if(scale===2)assert.ok(measured.height>=measured.lineHeight*1.8,'enlarged full selection should visibly wrap');
+  return measured;
+}
 (async()=>{
   await fs.mkdir(output,{recursive:true});
   const commit=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
@@ -121,7 +129,8 @@ async function geometry(page){return page.evaluate(()=>{
       await page.screenshot({path:path.join(output,`layout-320-${scale}x.png`),fullPage:true});
       const record={kind:'layout',scale,before,after};
       try{assert.equal(after.width,before.width);assert.equal(after.dpr,before.dpr);assert.equal(after.root,before.root*scale);assert.equal(after.body,before.body*scale);assert.equal(after.button,before.button*scale);assert.ok(after.scrollWidth<=320,`320px at ${scale*100}% text scrolls to ${after.scrollWidth}px`);assert.deepEqual(after.outside,[]);assert.ok(after.skipBottom<=0,'unfocused skip link paints inside viewport');
-        await seedPendingByKeyboard(page);const detail=await geometry(page);assert.equal(detail.scrollWidth,320);assert.deepEqual(detail.outside,[]);assert.deepEqual(detail.overlaps,[]);record.detail=detail;record.labelAudit=await labelsAndSemantics(page);await page.screenshot({path:path.join(output,`detail-320-${scale}x.png`),fullPage:true});record.result='PASS';}catch(e){record.result='FAIL';record.reason=e.message;process.exitCode=1;}
+        record.requestReadouts=[await fullReadout(page,'request-service','Nagelpflege (Demo, 30 Testminuten)',scale),await fullReadout(page,'request-start','2027-02-18 13:30 UTC',scale)];
+        await seedPendingByKeyboard(page);await choose(page,'resource','resource-a1');await choose(page,'matched-start','2027-02-18T13:30:00.000Z');record.detailReadouts=[await fullReadout(page,'resource','Testressource A1',scale),await fullReadout(page,'matched-start','2027-02-18 13:30 UTC',scale)];const detail=await geometry(page);assert.equal(detail.scrollWidth,320);assert.deepEqual(detail.outside,[]);assert.deepEqual(detail.overlaps,[]);record.detail=detail;record.labelAudit=await labelsAndSemantics(page);await page.screenshot({path:path.join(output,`detail-320-${scale}x.png`),fullPage:true});record.result='PASS';}catch(e){record.result='FAIL';record.reason=e.message;process.exitCode=1;}
       results.push(record);await page.close();
     }
     for(const [f,h]of Object.entries(sourceHashes))assert.equal(crypto.createHash('sha256').update(await fs.readFile(path.join(root,f))).digest('hex'),h,`${f} changed during check`);

@@ -27,10 +27,17 @@ function options(select,items,placeholder) {
   if (placeholder) select.append(new Option(placeholder,''));
   for (const [value,label] of items) select.append(new Option(label,value));
 }
+function selectionReadout(select) {
+  // Native selects may clip their chosen label when text is enlarged. Keep the
+  // complete value visible without changing the native keyboard interaction.
+  const readout=el('p',undefined,'selection-value'); readout.id=select.id+'-selection';
+  const update=() => {readout.hidden=!select.value;readout.textContent=select.value?'Auswahl: '+select.selectedOptions[0].textContent:'';};
+  select.after(readout);select.addEventListener('change',update);update();
+}
 function field(form,id,label,items) {
   const wrap = el('div'), caption = el('label',label); caption.htmlFor = id;
   const input = el('select'); input.id = id; input.required = true;
-  options(input,items,'Bitte auswählen'); wrap.append(caption,input); form.append(wrap); return input;
+  options(input,items,'Bitte auswählen'); wrap.append(caption,input); selectionReadout(input); form.append(wrap); return input;
 }
 function refField(form,id,label) {
   const wrap = el('div'), caption = el('label',label); caption.htmlFor = id;
@@ -207,6 +214,7 @@ function render() {
 }
 // Install every event listener before enabling the static fieldset or submit.
 options($('request-start'),starts.map(value => [value,instant(value)]));
+selectionReadout($('request-service'));selectionReadout($('request-start'));
 $('request-form').addEventListener('submit',event => {event.preventDefault();if(state.busy)return;command(() => controller.request({locationId:state.locationId,serviceId:$('request-service').value,customerId:state.actorSession.endsWith('01')?'demo-01':'demo-02',startAt:$('request-start').value,privacyAccepted:$('request-privacy').checked}),() => focus('receipt'));});
 $('actor').addEventListener('change',event => command(() => controller.setActor(event.target.value),() => {
   if(isStaff()) { $('staff-title').tabIndex=-1;focus('staff-title');$('staff-title').scrollIntoView({block:'start'}); }
