@@ -7,7 +7,7 @@ From the repository root, run `npm test` and `npm run check`. The server test fi
 Example using a fixed test clock and public fixture session identifier:
 
 ```js
-import { createFakeBookingSystem } from './fake-booking-adapter.mjs';
+import { createFakeBookingSystem } from './server/fake-booking-adapter.mjs';
 
 const { service, inspect } = createFakeBookingSystem({
   clock: () => new Date('2027-01-01T00:00:00.000Z'),
@@ -31,4 +31,4 @@ The repository serializes cloned in-memory drafts and rolls back rejected callba
 
 Cancellation/rescheduling uses a separate proposed change-request aggregate. It is denied by default. Explicit `changePolicy: () => true` exists only as an opt-in test fixture, not a salon policy. Original confirmed/declined booking rows remain historical terminal records; applied change records derive an effective state and preserve links/audit history. No Treatwell call or real reference verification occurs.
 
-Read the [contract](../docs/server-adapter-contract.md) and [future database/auth integration notes](../docs/server-integration-plan.md) before extending this experiment. Real durations/resources, change permissions, notice windows/fees and reconciliation evidence still require owner decisions.
+Read the [contract](../docs/server-adapter-contract.md), [independent review](../docs/server-review.md) and [future database/auth integration notes](../docs/server-integration-plan.md) before extending this experiment. Real durations/resources, change permissions, notice windows/fees and reconciliation evidence still require owner decisions.
