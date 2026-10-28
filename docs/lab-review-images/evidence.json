@@ -1,0 +1,163 @@
+{
+  "implementationCommit": "33bbf447a6b47ad30bddda4528986cc10808f0a9",
+  "capturedAt": "2026-10-28T10:23:40.060Z",
+  "browser": "156.0.8078.4",
+  "origin": "http://127.0.0.1:4183",
+  "sourceHashes": {
+    "lab/index.html": "402893659c87caf61400395bf27fc7e1abcbad86c42c3f15818a62f4280d1470",
+    "lab/styles.css": "f472a891226f93c6cc6bebcce2154234f05f696ebfe59e7bf908b1818ea94726",
+    "lab/app.mjs": "4f14a548b797831518eaadcd415c13e8f1dd2efa8ee6148d4c4020adb37a1ff7",
+    "lab/controller.mjs": "ab4eeb27786831815cdfc644ea6d78287cf03c75fbfbd6cfda8b86677b889dae",
+    "scripts/serve-lab.mjs": "4722d90005187496026137fc6620a866097d79dc357772e3c0bff7cc9d42a3ce",
+    "server/booking-service.mjs": "1e3b07540beb240eca830eb3b16da8cb6c8e194e8d1bd84748af3b18edde31c4",
+    "server/fake-booking-adapter.mjs": "a4fe9b9e17bde87a8aba5fe0b8ae176ee3b9d9600c0b0af9605c496b8a2e1b68",
+    "server/booking-errors.mjs": "1d339abe995393a07a82730526be07fd6a6edbd470d745eaadc9f7c52ca0107b",
+    "public/booking.mjs": "7a4f10003240a13110ae0fe9cf462cfa0a1f2c5304bcb0e8f86c1cbf74992620",
+    "tests/lab-browser.cjs": "3ce1a5f594c13898a3fc93e3be51764a1628442fe387e8aea87e4494bbbe34dc",
+    "tests/lab-independent.test.mjs": "ed5a9e7ca2da3d34970f81ee2327c5542bfa3e3c4f87104d5cc31a660c380901"
+  },
+  "results": [
+    {
+      "kind": "journey",
+      "width": 390,
+      "result": "PASS"
+    },
+    {
+      "kind": "journey",
+      "width": 768,
+      "result": "PASS"
+    },
+    {
+      "kind": "journey",
+      "width": 1440,
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "javascript-disabled",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "app-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "controller-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "domain-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 390,
+      "mode": "delayed-app",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "javascript-disabled",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "app-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "controller-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "domain-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 768,
+      "mode": "delayed-app",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "javascript-disabled",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "app-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "controller-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "domain-failure",
+      "result": "PASS"
+    },
+    {
+      "kind": "boot",
+      "width": 1440,
+      "mode": "delayed-app",
+      "result": "PASS"
+    }
+  ],
+  "screenshots": {
+    "desktop-pending.png": {
+      "sha256": "60126869d48575e3a2ad18f90d0def8be628710b07eb27a5e31e267daf4466a4",
+      "width": 1440,
+      "height": 2122
+    },
+    "desktop-rescheduled.png": {
+      "sha256": "8fba8638e17418b5bad5f2f6f39a7c899e5f313f513fe0cf673b344cecba25d6",
+      "width": 1440,
+      "height": 2396
+    },
+    "mobile-change-proposal.png": {
+      "sha256": "05a976696a39555c5856bb0c75cf11ee40c430abfd7b4c4ef3926495c853da9c",
+      "width": 390,
+      "height": 3878
+    },
+    "mobile-historical-receipt.png": {
+      "sha256": "d25e207328f09c53f600164cf250a9cd070608befb71f371af42709c7b45737a",
+      "width": 390,
+      "height": 3331
+    },
+    "mobile-mismatch.png": {
+      "sha256": "d58be29d441a0ba0d7cea1280424d51a14ee347b6da3d63ce111f7d112bca329",
+      "width": 390,
+      "height": 3365
+    },
+    "mobile-module-failure.png": {
+      "sha256": "9cc52f538e77183a66eadfa8e4dd678a9d9ec5743421055343b13f9be5809fc0",
+      "width": 390,
+      "height": 2106
+    },
+    "mobile-pending.png": {
+      "sha256": "a6611d0000e95daeec28ce224f86ea98bdd567487fcbbf4b6257aa3dfea294c5",
+      "width": 390,
+      "height": 3242
+    }
+  }
+}
