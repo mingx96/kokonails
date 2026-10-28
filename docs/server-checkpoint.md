@@ -11,3 +11,5 @@ Implementation and tests stop at this checkpoint. Future work depends on these c
 5. Hosting: selected-team plan and existing no-cost scope must be verified before any preview deployment. Existing credentials/permissions are not expanded here.
 
 Detailed future constraints are in [the integration notes](server-integration-plan.md); exact executed tests and findings are in [the independent review](server-review.md). No repeated customer-policy prompts or additional backend expansion are needed until those decisions are available.
+
+Subsequent authorized local product work is isolated in [the operational lab](lab-contract.md): it consumes this unchanged contract in browser memory with public fixtures, preserving the default-deny policy and an explicit invented-policy reset scenario. It is not a real server adapter or an expansion of salon policy. This integration checkpoint remains in force.

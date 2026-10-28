@@ -38,3 +38,5 @@ Cancellation/rescheduling uses a separate proposed change-request aggregate. It 
 Read the [contract](../docs/server-adapter-contract.md), [independent review](../docs/server-review.md) and [future database/auth integration notes](../docs/server-integration-plan.md) before extending this experiment. Real durations/resources, change permissions, notice windows/fees and reconciliation evidence still require owner decisions.
 
 Further backend expansion is paused at [this checkpoint](../docs/server-checkpoint.md) pending those policies and real adapter choices.
+
+A separate [local operational lab](../docs/lab-contract.md) now demonstrates this unchanged contract through the fake adapter inside browser memory. It adds no booking API or backend integration and does not enter the reviewed static preview build. Public fixture roles remain a bypassable simulation.

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Koko Nails | Lokales Buchungslabor</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/lab/styles.css">
+  <script type="module" src="/lab/app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Buchungslabor</a>
+  <header class="masthead"><span class="wordmark">Koko Nails<span>Buchungslabor</span></span><p class="local-tag">Nur lokal · Synthetischer Test</p></header>
+  <main id="main">
+    <div class="intro"><h1>Von der Anfrage zur Entscheidung.</h1><p>Nur im Browser, nur erfundene Daten. Es entsteht kein echter Termin. Treatwell bleibt im echten Betrieb der maßgebliche Kalender; hier wird kein Kalender aufgerufen.</p></div>
+    <ol class="journey" aria-label="Ablauf"><li><strong>Anfragen</strong><span>PENDING, kein Platz reserviert</span></li><li><strong>Abgleich simulieren</strong><span>Testreferenz manuell zuordnen</span></li><li><strong>Entscheiden</strong><span>Bestätigen oder ablehnen</span></li></ol>
+    <p id="boot-message" class="notice" role="status">Das Labor wird geladen. Bleiben die Eingaben gesperrt, lade die Seite neu und prüfe JavaScript. Bis zur Initialisierung werden keine Formulardaten gesendet.</p>
+    <noscript><p class="notice">JavaScript ist ausgeschaltet. Dieses Labor kann nur mit JavaScript im Browser arbeiten.</p></noscript>
+    <div id="global-error" class="error" role="alert" tabindex="-1" hidden></div>
+    <p id="activity" role="status" aria-live="polite"></p>
+    <fieldset id="lab-controls" disabled>
+      <legend class="sr-only">Steuerung des lokalen Testlabors</legend>
+      <section class="toolbar" aria-label="Testsitzung">
+        <div><label for="actor">Testrolle – kein Login</label><select id="actor"><option value="fixture-customer-01">Testkundin 01</option><option value="fixture-customer-02">Testkundin 02</option><option value="fixture-staff-a">Testteam A</option><option value="fixture-staff-b">Testteam B</option><option value="fixture-staff-all">Testteam A + B</option><option value="invalid-fixture">Ungültige Testsitzung</option></select></div>
+        <div><label for="scope-location">Teststudio im Arbeitsbereich</label><select id="scope-location"><option value="demo-a">Teststudio A</option><option value="demo-b">Teststudio B</option></select></div>
+        <div class="session-note"><strong>Öffentliche Testrollen</strong><span>Umschalten ist keine Authentifizierung. Alle Daten verschwinden beim Neuladen.</span></div>
+      </section>
+      <details class="scenario"><summary>Testszenario und Neustart</summary><p id="scenario-state">Änderungen gesperrt – Betriebsregel noch offen.</p><label for="scenario">Szenario nach Neustart</label><select id="scenario"><option value="locked">Änderungen gesperrt (Standard)</option><option value="changes">Änderungen testen (erfundene Freigabe)</option></select><label class="check"><input id="reset-ack" type="checkbox"> Alle lokalen Anfragen und Vorgänge beim Neustart löschen.</label><button id="reset" type="button">Labor neu starten und Daten löschen</button></details>
+      <section id="customer-panel" class="paper" aria-labelledby="request-title">
+        <div class="section-head"><h2 id="request-title">Testanfrage stellen</h2><p>Testuhr: 01.01.2027, 00:00 UTC. Alle Zeitpunkte sind Testwerte in UTC, keine Öffnungszeiten oder Verfügbarkeiten.</p></div>
+        <p id="request-access" class="muted"></p>
+        <form id="request-form">
+          <fieldset id="request-fields"><legend class="sr-only">Testanfrage</legend>
+            <div class="fields"><div><label for="request-service">Testleistung</label><select id="request-service"><option value="demo-care">Nagelpflege (Demo, 30 Testminuten)</option><option value="demo-colour">Farblook (Demo, 60 Testminuten)</option></select></div><div><label for="request-start">Gewünschter Testzeitpunkt (UTC)</label><select id="request-start"></select></div></div>
+            <label class="check"><input id="request-privacy" type="checkbox" required> Ich verwende ausschließlich erfundene Testdaten.</label>
+            <button id="request-send" type="button">Testanfrage stellen</button>
+          </fieldset>
+        </form>
+        <div id="receipt" class="receipt" tabindex="-1" hidden></div>
+      </section>
+      <section class="workbench" aria-labelledby="staff-title">
+        <div class="section-head"><h2 id="staff-title">Testteam: Anfragen prüfen</h2><p>Ein Abgleich bestätigt nur die Simulation. Es wird kein echter Treatwell-Termin geprüft oder erstellt.</p></div>
+        <p id="staff-access" class="notice"></p>
+        <div class="workgrid"><section class="queue-panel" aria-labelledby="queue-title"><div class="queue-heading"><h3 id="queue-title">Anfragen &amp; Verlauf</h3><button id="refresh" class="secondary" type="button">Ansicht aktualisieren</button></div><div id="queue"></div></section>
+          <section id="detail" class="detail" aria-labelledby="detail-title" tabindex="-1"><h3 id="detail-title">Anfrage auswählen</h3><p>Wähle einen Eintrag aus der Liste. Neue Anfragen halten keinen Platz frei.</p></section>
+        </div>
+      </section>
+    </fieldset>
+    <footer><p>Lokales Bedienlabor. Keine echte Anmeldung, Datenbank, Nachricht oder Treatwell-Verbindung. Der bestehende statische Preview bleibt unverändert.</p></footer>
+  </main>
+</body>
+</html>

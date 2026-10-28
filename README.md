@@ -63,6 +63,24 @@ If Playwright is outside normal module lookup, set `KOKO_PLAYWRIGHT_MODULE` to i
 
 The [tracked synthetic screenshots](docs/review-images/README.md) are available for independent pixel review without access to this machine.
 
+## Separate local operational lab
+
+```sh
+npm run lab
+```
+
+Open `http://127.0.0.1:4183`. This separate German lab runs the existing server-domain contract through its fake adapter **inside browser memory**. Its loopback server only serves a fixed source-asset allowlist; there is no booking API. No build or deployment includes the lab. The existing static preview and six-file `dist/` remain unchanged.
+
+As Testkundin 01, submit a request for a fixed synthetic UTC time. Choose Testteam A, open the request, enter distinct simulated studio/time/reference evidence and explicitly attest the mock reconciliation before confirming. An initial request can also be declined. Changes are denied by default; the separate “Änderungen testen” scenario requires acknowledging deletion of all local state before restart. It permits test-only cancellation/reschedule proposals, rejection and manually attested application. These are invented mechanics, not salon policy. The clock is fixed at `2027-01-01T00:00:00.000Z`; test services/resources/durations/times are not business facts or available slots.
+
+Every fixture role is public and bypassable: this is **not a protected admin**. Changing roles/studios re-reads through the fake contract; in-flight actions lock switching/reset. Reload loses all data. Error text uses the contract's public descriptors. No customer contact fields, real Treatwell access, outbound messages, durable storage, real authentication or database exist.
+
+Read [lab contract and runbook](docs/lab-contract.md), [design challenge](docs/lab-design-review.md) and [independent operational QA](docs/lab-qa.md). Optional browser regression uses the same existing Playwright environment variables as above, with `KOKO_LAB_ORIGIN` for another loopback origin:
+
+```sh
+node tests/lab-browser.cjs
+```
+
 ## Before any live pilot
 
 Keep the business rules in [AGENTS.md](AGENTS.md) and the [existing specification](docs/superpowers/specs/2026-10-22-koko-growth-os-design.md). Obtain owner-verified details for each salon, services/prices, official Treatwell links and reviewed legal/privacy copy. Do not repurpose existing marketplace bookings to avoid fees.
