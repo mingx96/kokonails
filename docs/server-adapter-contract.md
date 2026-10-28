@@ -6,9 +6,9 @@ This is an asynchronous domain module behind injected identity/repository interf
 
 ## Owners
 
-- Coordinator: this contract, server README, future database/auth integration notes, syntax-check list and final evidence.
+- Coordinator: this contract, server README, future database/auth integration notes, external error descriptor module/tests, syntax-check list and final evidence.
 - Booking worker: `server/booking-service.mjs`, `server/fake-booking-adapter.mjs`, `tests/server-booking.test.mjs`. Tests first; no commit.
-- Independent QA: `tests/server-authorization.test.mjs`, `docs/server-review.md`; no runtime implementation edits.
+- Independent QA: `tests/server-authorization.test.mjs`, `tests/server-delta-review.test.mjs`, `docs/server-review.md`; no runtime implementation edits.
 
 ## Synthetic public API
 
@@ -28,7 +28,7 @@ The existing fixed demo location/service/customer IDs may be imported without ch
 Service methods are async:
 
 - `request(session, input, key)`: input exactly `{locationId, serviceId, customerId, startAt, privacyAccepted}`. Customer may request only their own fixture identity; staff may request within their location grant. `startAt` is a canonical UTC ISO string (`new Date(startAt).toISOString() === startAt`), strictly future. No dates parsed from local wall time here; a future UI adapter must use the verified salon timezone. Unknown fields/fixture IDs/types, malformed dates, wrong customer, and non-true privacy acceptance reject. Returns a server-generated synthetic booking ID and `status: PENDING`; no resource or slot is held. Same-slot requests from different customers are allowed. Duplicate active requests for same customer/location/start reject even with another key.
-- `confirm(session, bookingId, action, key)`: staff only, matching grant. Action exactly `{resourceId, manuallyChecked, matchedLocationId, matchedStartAt, treatwellReference}`. All fields must match the request, `manuallyChecked === true`, resource belongs to the location, reference matches `DEMO-` plus 3–50 alphanumeric/hyphen suffix characters and is unique. No network verification is claimed. Atomically permits only `PENDING -> CONFIRMED`, assigns the server-catalog duration and a resource allocation. Intervals are half-open: adjacent appointments do not overlap. Another effective CONFIRMED allocation on the same resource conflicts; a different resource may overlap.
+- `confirm(session, bookingId, action, key)`: staff only, matching grant. Action exactly `{resourceId, manuallyChecked, matchedLocationId, matchedStartAt, treatwellReference}`. All fields must match the request, `manuallyChecked === true`, resource belongs to the location, reference matches `DEMO-` plus 3–50 alphanumeric/hyphen suffix characters and is unique. No network verification is claimed. First-time confirmation requires `startAt` strictly after server time at the in-transaction eligibility check, after queue waiting and identity resolution; equality/past returns `PAST_TIME` without mutation. This adds no expiry status, grace period, fee or automatic cleanup. An already-successful identical replay remains the stored original outcome after current authorization, with no new confirmation/event. Atomically permits only `PENDING -> CONFIRMED`, assigns the server-catalog duration and a resource allocation. Intervals are half-open: adjacent appointments do not overlap. Another effective CONFIRMED allocation on the same resource conflicts; a different resource may overlap.
 - `decline(session, bookingId, action, key)`: staff in granted location; action exactly `{}`. Only `PENDING -> DECLINED`.
 - `get(session, bookingId)`: staff only in granted location, or the owning fixture customer. Defensive snapshot with derived `effectiveState`.
 - `list(session, {locationId})`: staff only; exactly one known granted location; no cross-location leakage.
@@ -55,3 +55,20 @@ Each successful non-replayed mutation writes an actor-attributed synthetic audit
 Use Node's existing built-in test runner; no new framework or dependencies. Test request replay/conflict, no slot hold, UTC validation, fixture allowlists, unauthorized/missing identity, forged body roles, location denial on reads/writes/replays, same/different resource overlap, concurrent commands, half-open boundaries, reference reuse, stale states, rollback, and opt-in change-request transitions. Preserve existing 42 tests and the exact static asset hashes.
 
 Business decisions remain unresolved: real salon resources/capacity/durations/timezones; customer versus staff change permissions; notice windows, fees and no-show rules; pending-request withdrawal; handling declined/expired proposals; cross-location/service changes; repeated changes; authority for real Treatwell cancellation/rebooking evidence. No fixture policy answers these questions. The change-request proposal requires explicit owner review before adoption.
+
+## External error descriptor, without a transport
+
+`server/booking-errors.mjs` exposes `toExternalBookingError(error)` as frozen plain `{status, code, message}` data. The numeric status is a future response contract only: no HTTP route, response writer or live adapter exists. Missing and inaccessible resources intentionally have the same entire descriptor, including status 404; supplied IDs, error messages and stacks never appear in it.
+
+| Internal reason group | Public status/code |
+| --- | --- |
+| UNAUTHENTICATED | 401 / AUTHENTICATION_REQUIRED |
+| FORBIDDEN, NOT_FOUND, UNKNOWN_LOCATION/SERVICE/CUSTOMER/RESOURCE | 404 / RESOURCE_UNAVAILABLE |
+| Invalid input, key, start format, privacy acceptance, reference format | 400 / INVALID_REQUEST |
+| Idempotency/duplicate/state/reference/resource/reconciliation conflict | 409 / REQUEST_CONFLICT |
+| PAST_TIME, RECONCILIATION_REQUIRED, POLICY_UNDECIDED | 409 / REQUEST_NOT_ALLOWED |
+| Configuration/adapter failure or unknown error | 500 / INTERNAL_ERROR |
+
+The original domain error/code remains unchanged. `getInternalBookingReason(error)` returns only a known stable internal code (otherwise ADAPTER_FAILURE), without reading message/stack/accessor values. A trusted internal diagnostic/audit caller can retain the distinct reason before returning only the public descriptor. Tests demonstrate this with a fake in-memory diagnostic ledger; no persistent denial audit sink is added or claimed. Transactional successful-mutation audit behavior remains unchanged.
+
+A future transport must derive both status and body from the public descriptor, retain normalized internal reasons in its controlled diagnostic sink, and avoid exposing the domain error itself. HTTP headers, timing, cache behavior and deployed non-enumeration remain unverified until a real adapter is separately approved and tested.

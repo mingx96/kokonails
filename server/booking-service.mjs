@@ -5,11 +5,12 @@ const locations = new Set(catalog.locations.map(({ id }) => id));
 const customers = new Set(catalog.customers.map(({ id }) => id));
 const durations = new Map([['demo-care', 30], ['demo-colour', 60]]);
 const resources = new Map([['resource-a1', 'demo-a'], ['resource-a2', 'demo-a'], ['resource-b1', 'demo-b']]);
-const errorCodes = new Set(['UNAUTHENTICATED', 'FORBIDDEN', 'INVALID_INPUT', 'INVALID_IDEMPOTENCY_KEY',
+export const BOOKING_ERROR_CODES = Object.freeze(['UNAUTHENTICATED', 'FORBIDDEN', 'INVALID_INPUT', 'INVALID_IDEMPOTENCY_KEY',
   'IDEMPOTENCY_CONFLICT', 'UNKNOWN_LOCATION', 'UNKNOWN_SERVICE', 'UNKNOWN_CUSTOMER', 'INVALID_START_AT',
   'PAST_TIME', 'PRIVACY_REQUIRED', 'DUPLICATE_REQUEST', 'NOT_FOUND', 'INVALID_TRANSITION',
   'RECONCILIATION_REQUIRED', 'RECONCILIATION_MISMATCH', 'UNKNOWN_RESOURCE', 'INVALID_REFERENCE',
   'REFERENCE_CONFLICT', 'RESOURCE_CONFLICT', 'POLICY_UNDECIDED', 'INVALID_CONFIGURATION', 'ADAPTER_FAILURE']);
+const errorCodes = new Set(BOOKING_ERROR_CODES);
 
 function failure(code) { return Object.assign(new Error(code), { code }); }
 function fail(code) { throw failure(code); }
@@ -183,6 +184,9 @@ export function createBookingService({ identity, repository, clock = () => new D
           treatwellReference: reference(action.treatwellReference) };
         return mutate(state, actor, 'confirm', bookingId, body, key, () => {
           if (booking.status !== 'PENDING') fail('INVALID_TRANSITION');
+          // Check the server clock after transaction/identity waits. Replays
+          // return their stored outcome before this first-confirmation guard.
+          future(booking.startAt);
           if (body.manuallyChecked !== true) fail('RECONCILIATION_REQUIRED');
           if (body.matchedLocationId !== booking.locationId || body.matchedStartAt !== booking.startAt) fail('RECONCILIATION_MISMATCH');
           requireFreshReferences(state, [body.treatwellReference]);

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBookingService } from '../server/booking-service.mjs';
+import * as bookingDomain from '../server/booking-service.mjs';
 import { createFakeBookingSystem, createFakeIdentityAdapter, createFakeBookingRepository } from '../server/fake-booking-adapter.mjs';
 
 const staff = 'fixture-staff-all';
@@ -358,21 +359,36 @@ test('late audit failure rolls back booking IDs and idempotency, then the exact 
 });
 
 test('late confirmation failure rolls back allocation/reference/sequence and preserves pending source', async () => {
-  let failing = false;
-  const fake = system({ clock: () => {
-    if (failing) throw new Error('private-adapter-detail');
+  let failAtCall = Infinity;
+  let clockCalls = 0;
+  const repository = createFakeBookingRepository();
+  const identity = createFakeIdentityAdapter();
+  let draftAtFailure;
+  const observingRepository = { transaction: (work) => repository.transaction(async (draft) => {
+    try { return await work(draft); } catch (error) {
+      draftAtFailure = structuredClone(draft);
+      throw error;
+    }
+  }) };
+  const service = createBookingService({ repository: observingRepository, identity, clock: () => {
+    if (++clockCalls === failAtCall) throw new Error('private-adapter-detail');
     return now();
   } });
-  const booking = await fake.service.request(customer, command(), 'request-01');
-  const before = fake.inspect();
-  failing = true;
-  await rejects('INVALID_CONFIGURATION', () => fake.service.confirm(staff, booking.id, attest(booking), 'confirm-01'));
-  assert.deepEqual(fake.inspect(), before);
-  failing = false;
-  const result = await fake.service.confirm(staff, booking.id, attest(booking), 'confirm-01');
+  const booking = await service.request(customer, command(), 'request-01');
+  const before = repository.inspect();
+  // Eligibility is the first clock read during confirmation. Fail on the next
+  // read, when the audit event is written after allocation/reference changes.
+  failAtCall = clockCalls + 2;
+  await rejects('INVALID_CONFIGURATION', () => service.confirm(staff, booking.id, attest(booking), 'confirm-01'));
+  assert.equal(draftAtFailure.bookings.get(booking.id).status, 'CONFIRMED');
+  assert.equal(draftAtFailure.allocations.size, 1);
+  assert.equal(draftAtFailure.references.has('DEMO-REF001'), true);
+  assert.deepEqual(repository.inspect(), before);
+  failAtCall = Infinity;
+  const result = await service.confirm(staff, booking.id, attest(booking), 'confirm-01');
   assert.equal(result.status, 'CONFIRMED');
-  assert.equal(fake.inspect().references.length, 1);
-  assert.equal(fake.inspect().allocations.length, 1);
+  assert.equal(repository.inspect().references.length, 1);
+  assert.equal(repository.inspect().allocations.length, 1);
 });
 
 test('proposeChange never executes an accessor for kind and leaves state untouched', async () => {
@@ -420,3 +436,108 @@ for (const competingStatus of ['PENDING', 'CONFIRMED']) {
     assert.equal((await fake.service.get(customer, applied.replacementBookingId)).startAt, newStartAt);
   });
 }
+
+test('booking error codes are exported as a unique readonly array for external mappers', () => {
+  const codes = bookingDomain.BOOKING_ERROR_CODES;
+  assert.ok(Array.isArray(codes));
+  assert.ok(Object.isFrozen(codes));
+  assert.equal(new Set(codes).size, codes.length);
+  assert.ok(codes.includes('PAST_TIME'));
+  assert.ok(codes.includes('ADAPTER_FAILURE'));
+  assert.throws(() => { codes.push('FORGED_CODE'); }, TypeError);
+  assert.throws(() => { codes[0] = 'FORGED_CODE'; }, TypeError);
+});
+
+test('first confirmation succeeds one millisecond before startAt', async () => {
+  let current = now();
+  const fake = system({ clock: () => current });
+  const booking = await fake.service.request(customer, command(), 'request-boundary');
+  current = new Date(Date.parse(booking.startAt) - 1);
+  const result = await fake.service.confirm(staff, booking.id, attest(booking), 'confirm-boundary');
+  assert.equal(result.status, 'CONFIRMED');
+  assert.equal(fake.inspect().allocations.length, 1);
+});
+
+for (const delta of [0, 1]) {
+  test(`first confirmation at startAt + ${delta}ms rejects without consuming key/reference or changing state`, async () => {
+    let current = now();
+    const fake = system({ clock: () => current });
+    const booking = await fake.service.request(customer, command(), 'request-boundary');
+    current = new Date(Date.parse(booking.startAt) + delta);
+    const before = fake.inspect();
+    await rejects('PAST_TIME', () => fake.service.confirm(staff, booking.id, attest(booking), 'confirm-boundary'));
+    assert.deepEqual(fake.inspect(), before);
+    assert.equal((await fake.service.get(customer, booking.id)).status, 'PENDING');
+    // A valid future booking may reuse both the failed command's actor-scoped
+    // key and reference; this requires neither a new key nor rewinding time.
+    const later = await fake.service.request(customer,
+      command({ startAt: '2027-02-01T11:00:00.000Z' }), 'request-later');
+    const result = await fake.service.confirm(staff, later.id, attest(later), 'confirm-boundary');
+    assert.equal(result.status, 'CONFIRMED');
+    assert.equal(result.treatwellReference, 'DEMO-REF001');
+  });
+}
+
+test('confirmation uses server time after queued transaction wait rather than invocation time', async () => {
+  const repository = createFakeBookingRepository();
+  const identity = createFakeIdentityAdapter();
+  let current = now();
+  const service = createBookingService({ repository, identity, clock: () => current });
+  const booking = await service.request(customer, command(), 'request-boundary');
+  current = new Date(Date.parse(booking.startAt) - 1);
+  const before = repository.inspect();
+  const entered = Promise.withResolvers();
+  const release = Promise.withResolvers();
+  const blocking = repository.transaction(async () => { entered.resolve(); await release.promise; });
+  await entered.promise;
+  const pending = service.confirm(staff, booking.id, attest(booking), 'confirm-boundary');
+  current = new Date(booking.startAt);
+  release.resolve();
+  await blocking;
+  await rejects('PAST_TIME', () => pending);
+  assert.deepEqual(repository.inspect(), before);
+});
+
+test('confirmation uses server time after delayed in-transaction identity resolution', async () => {
+  const repository = createFakeBookingRepository();
+  const fixtureIdentity = createFakeIdentityAdapter();
+  const entered = Promise.withResolvers();
+  const release = Promise.withResolvers();
+  const identity = { resolve: async (session) => {
+    if (session === staff) { entered.resolve(); await release.promise; }
+    return fixtureIdentity.resolve(session);
+  } };
+  let current = now();
+  const service = createBookingService({ repository, identity, clock: () => current });
+  const booking = await service.request(customer, command(), 'request-boundary');
+  current = new Date(Date.parse(booking.startAt) - 1);
+  const before = repository.inspect();
+  const pending = service.confirm(staff, booking.id, attest(booking), 'confirm-boundary');
+  await entered.promise;
+  current = new Date(booking.startAt);
+  release.resolve();
+  await rejects('PAST_TIME', () => pending);
+  assert.deepEqual(repository.inspect(), before);
+});
+
+test('successful confirmation replays past startAt without a new mutation, but reauthorizes current grants', async () => {
+  const repository = createFakeBookingRepository();
+  const fixtureIdentity = createFakeIdentityAdapter();
+  let revoked = false;
+  let current = now();
+  const identity = { resolve: async (session) => {
+    const actor = await fixtureIdentity.resolve(session);
+    return revoked && actor?.role === 'staff' ? { ...actor, locationIds: [] } : actor;
+  } };
+  const service = createBookingService({ repository, identity, clock: () => current });
+  const booking = await service.request(customer, command(), 'request-boundary');
+  current = new Date(Date.parse(booking.startAt) - 1);
+  const original = await service.confirm(staff, booking.id, attest(booking), 'confirm-boundary');
+  const before = repository.inspect();
+  current = new Date(Date.parse(booking.startAt) + 1);
+  assert.deepEqual(await service.confirm(staff, booking.id, attest(booking), 'confirm-boundary'), original);
+  assert.deepEqual(repository.inspect(), before);
+  revoked = true;
+  await rejects('FORBIDDEN', () => service.confirm(staff, booking.id, attest(booking), 'confirm-boundary'));
+  assert.deepEqual(repository.inspect(), before);
+});

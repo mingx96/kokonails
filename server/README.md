@@ -29,6 +29,12 @@ The service resolves actor roles/location grants through the injected identity a
 
 The repository serializes cloned in-memory drafts and rolls back rejected callbacks. This proves local fake-adapter ordering only. It does not prove real authentication, database transactions, multi-process behavior, crash durability, backups or retention.
 
+First-time confirmation is denied at or after the requested start, checked inside the transaction after queue/identity waits. This does not mark requests expired or introduce fees. An identical successful replay remains an original acknowledgement and creates no new confirmation.
+
+`booking-errors.mjs` supplies a frozen public response descriptor and a separate normalized internal reason helper. Missing and inaccessible resources share the same 404 descriptor. Domain errors stay intact for trusted diagnostics; the mapper does not persist audits or create an HTTP endpoint.
+
 Cancellation/rescheduling uses a separate proposed change-request aggregate. It is denied by default. Explicit `changePolicy: () => true` exists only as an opt-in test fixture, not a salon policy. Original confirmed/declined booking rows remain historical terminal records; applied change records derive an effective state and preserve links/audit history. No Treatwell call or real reference verification occurs.
 
 Read the [contract](../docs/server-adapter-contract.md), [independent review](../docs/server-review.md) and [future database/auth integration notes](../docs/server-integration-plan.md) before extending this experiment. Real durations/resources, change permissions, notice windows/fees and reconciliation evidence still require owner decisions.
+
+Further backend expansion is paused at [this checkpoint](../docs/server-checkpoint.md) pending those policies and real adapter choices.
